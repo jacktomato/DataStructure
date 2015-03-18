@@ -144,7 +144,7 @@ int Destroy(Node_t *head)
        head->next = pnode->next;
        free(pnode);
 	   //head->next = pnode->next;
-	   pnode = head->next->next;
+	   pnode = head->next;
     }
 	free(head->next);
 	head->next = NULL;

@@ -6,9 +6,9 @@
 
 int main(int argc, char **argv)
 {
-	int i = 0;
+	int i = 0;int ret = 0;
 	Node_t head;
-	Node_t *pnode = NULL;
+	Node_t *pnode,*tmp = NULL;
 	head.data = 1000;
 	head.next = NULL;
 	for(;i < 20;i++)
@@ -16,7 +16,18 @@ int main(int argc, char **argv)
 		add_head(&head,i);
 		//add_tail(&head,i);
 	}
-	//delete_node(&head,5);
+	tmp = Search(&head,5);
+	if(tmp)
+		printf("find the node\n");
+	else 
+		printf("not find the node\n");
+	delete_node(&head,5);
+	printf("after delete node:\n");
+	tmp = Search(&head,5);
+	if(tmp)
+		printf("find the node\n");
+	else 
+		printf("not find the node\n");
 	pnode = head.next;
 	printf("before reverse the data is :\n");
 	while(pnode)
