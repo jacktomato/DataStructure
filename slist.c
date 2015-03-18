@@ -81,8 +81,8 @@ int delete_node(Node_t *head,int data)
     }
     return 1;//未找到该节点
 }
-#if 0
-int list_for_each(Node_t *head,void (todo*)(Node_t *node))
+#if 1
+int list_for_each(Node_t *head,void (*todo)(Node_t *node))
 {
     //assert(head != NULL);
     Node_t *pnode = head;
