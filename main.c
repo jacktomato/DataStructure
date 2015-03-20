@@ -4,10 +4,17 @@
 //#include "stack.h"
 #include <windows.h>
 #include "yhtriangle.h"
+#include "dlist.h"
 
-//#define SLIST_TEST
-#define YHTRIANGLE_TEST
+//#define SLIST_TEST		//单链表
+//#define YHTRIANGLE_TEST	//杨辉三角
+#define DLIST_TEST          //双向链表
 
+static void mylist_for_each(Node_t *node)
+{
+	printf("%d ",node->data);
+	return;
+}
 int main(int argc, char **argv)
 {
 	/*================================slist start===================================*/
@@ -37,11 +44,14 @@ int main(int argc, char **argv)
 		printf("not find the node\n");
 	pnode = head.next;
 	printf("before reverse the data is :\n");
+#if 0
 	while(pnode)
 	{
 		printf("%d ",pnode->data);
 		pnode = pnode->next;
 	}
+#endif
+	list_for_each(&head,mylist_for_each);
 	printf("\n");
 	reverse(&head);
 	pnode = head.next;
@@ -90,6 +100,55 @@ int main(int argc, char **argv)
 
 #endif
 	/*=================================yhtriangle end======================================*/
+
+
+	/*=====================================dlist start=====================================*/
+#ifdef DLIST_TEST
+
+	Dlist_t Dlist = {0};
+	Dnode_t *cur = NULL;
+	Dnode_t *tmp = NULL;
+	int i;
+	Dlist_init(&Dlist);
+	for(i = 0;i < 10;i++)
+	{
+		//Dlist.Add_head(Dlist.head,i);
+		Dlist.Add_tail(Dlist.head,i);
+		if(i == 4)
+			Dlist.Add_tail(Dlist.head,i);;
+	}
+
+	printf("after add_head,the data is:\n");
+	for(cur = Dlist.head->next;cur != Dlist.head;cur = cur->next)
+	{
+		Dlist.List_for_each(cur);
+	}
+	printf("\n");
+
+	tmp = Dlist.Search(Dlist.head,7);
+	if(tmp)
+		printf("find the node\n");
+	else
+		printf("not find the node\n");
+
+	Dlist.Delete(Dlist.head,4);
+	printf("after delete:\n");
+	for(cur = Dlist.head->next;cur != Dlist.head;cur = cur->next)
+	{
+		Dlist.List_for_each(cur);
+	}
+	printf("\n");
+
+	Dlist.Destroy(Dlist.head);
+	printf("after Destroy,the data is:\n");
+	for(cur = Dlist.head->next;cur != Dlist.head;cur = cur->next)
+	{
+		Dlist.List_for_each(cur);
+	}
+
+	Dlist_deinit(&Dlist);
+#endif
+	/*======================================dlist end======================================*/
 
     while(1)
 	{
