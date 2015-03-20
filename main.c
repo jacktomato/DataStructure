@@ -1,14 +1,18 @@
 #include <stdio.h>
 #include <string.h>
 #include "slist.h"
-//#include "stack.h"
 #include <windows.h>
 #include "yhtriangle.h"
 #include "dlist.h"
+#include "stack.h"
 
-//#define SLIST_TEST		//单链表
+
+//#define SLIST_TEST			//单链表
 //#define YHTRIANGLE_TEST	//杨辉三角
-#define DLIST_TEST          //双向链表
+//#define DLIST_TEST			//双向链表
+#define STACK_TEST				//栈
+
+
 
 static void mylist_for_each(Node_t *node)
 {
@@ -149,6 +153,60 @@ int main(int argc, char **argv)
 	Dlist_deinit(&Dlist);
 #endif
 	/*======================================dlist end======================================*/
+
+
+
+	/*=======================================stack start=======================================*/
+#ifdef STACK_TEST
+
+	Stack_t *stack = (Stack_t*)malloc(sizeof(Stack_t));
+	Dnode_t *cur,*tmp = NULL;
+	int i,j,count;
+	if(stack)
+	{
+		Stack_init(stack);
+		for(i = 0;i < 10;i++)
+		{
+			stack->Push(stack,i);
+		}
+#if 1
+		tmp = stack->head->next;
+		while(tmp != stack->head)
+			{
+				printf("%d ",tmp->data);
+				tmp = tmp->next;
+			}
+		printf("\n");
+#endif
+#if 1
+		count = stack->GetElemNum(stack);
+		printf("[%d]the stack count is %d\n",__LINE__,count);
+		for(i = 0;i < count-3;i++)
+		{
+			cur = stack->Pop(stack);
+			if(cur)
+			{
+				printf("[%d]now the %d is poped\n",__LINE__,cur->data);
+				free(cur);
+			}
+			printf("after pop the stack data is :\n");
+			tmp = stack->head->next;
+			while(tmp != stack->head)
+			{
+				printf("%d ",tmp->data);
+				tmp = tmp->next;
+			}
+			printf("\n");
+		}
+#endif
+		stack->Destroy(stack);
+		Stack_deinit(stack);
+	}
+	else
+		printf("[%d]out of memory\n",__LINE__);
+
+#endif
+	/*=====================================stack end============================================*/
 
     while(1)
 	{
