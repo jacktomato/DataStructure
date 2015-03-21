@@ -108,8 +108,45 @@ static Dnode_t *top(struct stack_t*stack)
 		return stack->head->next;
 }
 
+static Dnode_t *TwoStack2oneQ(struct stack_t*stack1,struct stack_t*stack2)
+{
+	Dnode_t *tmp,*cur = NULL;
+	if(!stack1||!stack2)
+	{
+		printf("[%s][%d]the param is not correct!\n",__FILE__,__LINE__);
+		return NULL;
+	}
+	while(!Isempty(stack1))
+	{
+		tmp = pop(stack1);
+		push(stack2,tmp->data);//fixme:此处这样的实现不太好，效率低
+		if(tmp)
+			free(tmp);
+	}
+	tmp = pop(stack2);
+	while(!Isempty(stack2))//将stack2的栈顶元素弹出之后剩余的还要压回stack1,不能改变原有栈的结构
+	{
+		cur = pop(stack2);
+		push(stack1,cur->data);//fixme:此处这样的实现不太好，效率低
+		if(cur)
+			free(cur);
+	}
 
+	return tmp;
+}
 
+static void list_for_each(struct stack_t*stack)
+{
+	Dnode_t *cur = NULL;
+	cur = stack->head->next;
+	while(cur != stack->head)
+	{
+		printf("%d ",cur->data);
+		cur = cur->next;
+	}
+	printf("\n");
+
+}
 static int Destroy(struct stack_t*stack)
 {
 	Dnode_t *tmp = NULL;
@@ -144,6 +181,8 @@ int Stack_init(Stack_t *stack)
 	stack->Isempty = Isempty;
 	stack->Destroy = Destroy;
 	stack->GetElemNum = GetElemNum;
+	stack->TwoStack2oneQ = TwoStack2oneQ;
+	stack->List_for_each = list_for_each;
 	return 0;
 
 }
@@ -167,5 +206,7 @@ int Stack_deinit(Stack_t*stack)
 	stack->Isempty = NULL;
 	stack->Destroy = NULL;
 	stack->GetElemNum = NULL;
+	stack->TwoStack2oneQ = NULL;
+	stack->List_for_each = NULL;
 	return 0;
 }

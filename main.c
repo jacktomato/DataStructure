@@ -5,13 +5,13 @@
 #include "yhtriangle.h"
 #include "dlist.h"
 #include "stack.h"
-
+#include "queue.h"
 
 //#define SLIST_TEST			//单链表
 //#define YHTRIANGLE_TEST	//杨辉三角
 //#define DLIST_TEST			//双向链表
 #define STACK_TEST				//栈
-
+//#define QUEUE_TEST			//队列
 
 
 static void mylist_for_each(Node_t *node)
@@ -160,23 +160,20 @@ int main(int argc, char **argv)
 #ifdef STACK_TEST
 
 	Stack_t *stack = (Stack_t*)malloc(sizeof(Stack_t));
+	Stack_t stack2 = {0};
 	Dnode_t *cur,*tmp = NULL;
 	int i,j,count;
 	if(stack)
 	{
 		Stack_init(stack);
+		Stack_init(&stack2);
 		for(i = 0;i < 10;i++)
 		{
 			stack->Push(stack,i);
 		}
 #if 1
-		tmp = stack->head->next;
-		while(tmp != stack->head)
-			{
-				printf("%d ",tmp->data);
-				tmp = tmp->next;
-			}
-		printf("\n");
+		printf("after push ,the original order is :\n");
+		stack->List_for_each(stack);
 #endif
 #if 1
 		count = stack->GetElemNum(stack);
@@ -190,15 +187,23 @@ int main(int argc, char **argv)
 				free(cur);
 			}
 			printf("after pop the stack data is :\n");
-			tmp = stack->head->next;
-			while(tmp != stack->head)
-			{
-				printf("%d ",tmp->data);
-				tmp = tmp->next;
-			}
-			printf("\n");
+			stack->List_for_each(stack);
 		}
 #endif
+		printf("after two stack 2 one queue:\n");
+		count = stack->GetElemNum(stack);
+		printf("[%d]the stack count is %d\n",__LINE__,count);
+		for(i = 0;i < count;i++)
+		{
+			cur = stack->TwoStack2oneQ(stack,&stack2);
+			if(cur)
+			{
+				printf("[%d]now the %d is poped\n",__LINE__,cur->data);
+				free(cur);
+			}
+			printf("after pop the stack data is :\n");
+			stack->List_for_each(stack);
+		}
 		stack->Destroy(stack);
 		Stack_deinit(stack);
 	}
@@ -208,10 +213,20 @@ int main(int argc, char **argv)
 #endif
 	/*=====================================stack end============================================*/
 
-    while(1)
+
+
+	/*=====================================queue start===========================================*/
+#ifdef QUEUE_TEST
+
+
+
+
+#endif
+	/*=====================================queue end============================================*/
+	while(1)
 	{
 		Sleep(5000);
-		break;
+		//break;
 	}
 	return 0;
 }
