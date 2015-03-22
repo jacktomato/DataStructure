@@ -7,11 +7,11 @@
 #include "stack.h"
 #include "queue.h"
 
-//#define SLIST_TEST			//单链表
-//#define YHTRIANGLE_TEST	//杨辉三角
-//#define DLIST_TEST			//双向链表
-#define STACK_TEST				//栈
-//#define QUEUE_TEST			//队列
+//#define SLIST_TEST					//单链表
+//#define YHTRIANGLE_TEST			//杨辉三角
+//#define DLIST_TEST					//双向链表
+//#define STACK_TEST					//栈
+#define QUEUE_TEST						//队列
 
 
 static void mylist_for_each(Node_t *node)
@@ -217,16 +217,35 @@ int main(int argc, char **argv)
 
 	/*=====================================queue start===========================================*/
 #ifdef QUEUE_TEST
-
-
-
+	Queue_t queue = {0};
+	Queue_t queue2 = {0};
+	Dnode_t node = {0};
+	Dnode_t *tmp = NULL;
+	int i,cnt;
+	Queue_init(&queue);
+	Queue_init(&queue2);
+	for(i = 0;i < 30;i++)
+	{
+		node.data = i;
+		queue.Push(&queue,&node);
+	}
+	queue.List_for_each(&queue);
+	cnt = queue.GetElemNum(&queue);
+	printf("[%s][%d]the queue element cnt is %d\n",__FILE__,__LINE__,cnt);
+	for(i = 0;i < cnt;i++)
+	{
+		//tmp = queue.Pop(&queue);
+		tmp = queue.TwoQ2oneStack(&queue,&queue2);
+		printf("[%s][%d]now the pop data is %d\n",__FILE__,__LINE__,tmp->data);
+		queue.List_for_each(&queue);
+	}
 
 #endif
 	/*=====================================queue end============================================*/
 	while(1)
 	{
 		Sleep(5000);
-		//break;
+		break;
 	}
 	return 0;
 }
