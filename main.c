@@ -239,13 +239,16 @@ int main(int argc, char **argv)
 		printf("[%s][%d]now the pop data is %d\n",__FILE__,__LINE__,tmp->data);
 		queue.List_for_each(&queue);
 	}
-
+	queue.Destroy(&queue);
+	queue.Destroy(&queue2);
+	Queue_deinit(&queue);
+	Queue_deinit(&queue2);
 #endif
 	/*=====================================queue end============================================*/
 	while(1)
 	{
 		Sleep(5000);
-		break;
+		//break;
 	}
 	return 0;
 }
